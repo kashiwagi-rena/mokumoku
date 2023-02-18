@@ -20,6 +20,8 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
 
+  enum gender: { other: 1, man: 2, woman: 3 }
+
   scope :allowing_created_event_notification,
         -> { joins(:notification_timings).merge(NotificationTiming.created_event) }
   scope :allowing_commented_to_event_notification,
@@ -59,6 +61,10 @@ class User < ApplicationRecord
 
   def own?(event)
     event.user_id == id
+  end
+
+  def woman(user)
+    gender = "woman"
   end
 
   def allow_created_event_notification?
